@@ -8,6 +8,7 @@ qi = del_index.QueryIndex(url='http://localhost:9200/_cat/indices?h=i,creation.d
 res = qi.queryindex()
 
 list_delindex = []
+list_del_watcher_index = []
 #get x days ago index
 def get_days_timestamp(x=0):
 	d = datetime.now()
@@ -19,19 +20,21 @@ def delete_xdays_index():
 	for l in res():
 		ct = int(l['creation.date'][:10])
 		if ct < t:
-			if l['i'].startswith('.',0,1):
-				pass
+			if l['i'].startswith('.watcher'):
+				list_del_watcher_index.append(l['i'])
 			else:
 				list_delindex.append(l['i'])
 		else:
 			pass	
 
 delete_xdays_index()
-#for i in list_delindex:
-#	print i
-
+####delete self-create index
 for l in list_delindex:
 	delete_index = del_index.QueryIndex(url='http://localhost:9200/' + l)
 	response = delete_index.deleteindex()
 	print response,l
-
+####delete system watcher index 
+for l in list_del_watcher_index:
+	delete_index = del_index.QueryIndex(url='http://localhost:9200/' + l)
+	response = delete_index.deleteindex()
+	print response,l
