@@ -20,21 +20,17 @@ def delete_xdays_index():
 	for l in res():
 		ct = int(l['creation.date'][:10])
 		if ct < t:
-			if l['i'].startswith('.watcher'):
-				list_del_watcher_index.append(l['i'])
+			if l['i'] == ".watches" or l['i'] == ".security-6":
+				pass
 			else:
 				list_delindex.append(l['i'])
 		else:
 			pass	
 
 delete_xdays_index()
-####delete self-create index
+
+####delete index
 for l in list_delindex:
-	delete_index = del_index.QueryIndex(url='http://localhost:9200/' + l)
-	response = delete_index.deleteindex()
-	print response,l
-####delete system watcher index 
-for l in list_del_watcher_index:
 	delete_index = del_index.QueryIndex(url='http://localhost:9200/' + l)
 	response = delete_index.deleteindex()
 	print response,l
