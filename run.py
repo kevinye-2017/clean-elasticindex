@@ -20,7 +20,7 @@ def delete_xdays_index():
 	for l in res():
 		ct = int(l['creation.date'][:10])
 		if ct < t:
-			if l['i'] == ".watches" or l['i'] == ".security-6":
+			if l['i'] == ".watches" or l['i'] == ".security-6" or l['i'] == ".kibana":
 				pass
 			else:
 				list_delindex.append(l['i'])
